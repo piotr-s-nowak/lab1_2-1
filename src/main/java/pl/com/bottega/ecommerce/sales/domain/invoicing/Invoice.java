@@ -32,7 +32,7 @@ public class Invoice {
 
     private Id id;
 
-    public static Invoice reateInvoice(Id invoiceId, ClientData client) {
+    public static Invoice createInvoice(Id invoiceId, ClientData client) {
         return new Invoice(invoiceId, client);
     }
     private Invoice(Id invoiceId, ClientData client) {
