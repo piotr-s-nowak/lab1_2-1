@@ -24,8 +24,11 @@ public class BookKeeper {
     public Invoice issuance(InvoiceRequest invoiceRequest) {
         Invoice invoice = Invoice.createinvoice(Id.generate(), invoiceRequest.getClient());
 
+        TaxByCountry taxByCountry = TaxByCountry.createTaxByCountry("poland");
+
         for (RequestItem item : invoiceRequest.getItems()) {
             Money net = item.getTotalCost();
+            /*
             BigDecimal ratio = null;
             String desc = null;
 
@@ -50,7 +53,8 @@ public class BookKeeper {
             Money taxValue = net.multiplyBy(ratio);
 
             Tax tax = new Tax(taxValue, desc);
-
+             */
+            Tax tax = taxByCountry.calculateTax(item)
             InvoiceLine invoiceLine = new InvoiceLine(item.getProductData(), item.getQuantity(), net, tax);
             invoice.addItem(invoiceLine);
         }
