@@ -32,7 +32,10 @@ public class Invoice {
 
     private Id id;
 
-    Invoice(Id invoiceId, ClientData client) {
+    public static Invoice reateInvoice(Id invoiceId, ClientData client) {
+        return new Invoice(invoiceId, client);
+    }
+    private Invoice(Id invoiceId, ClientData client) {
         this.id = invoiceId;
         this.client = client;
         this.items = new ArrayList<InvoiceLine>();
