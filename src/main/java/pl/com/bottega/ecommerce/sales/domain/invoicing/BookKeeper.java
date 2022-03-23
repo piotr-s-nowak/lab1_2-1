@@ -21,10 +21,8 @@ import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 public class BookKeeper {
 
-    public Invoice issuance(InvoiceRequest invoiceRequest) {
-        Invoice invoice = Invoice.createinvoice(Id.generate(), invoiceRequest.getClient());
-
-        TaxByCountry taxByCountry = TaxByCountry.createTaxByCountry("poland");
+    public Invoice issuance(InvoiceRequest invoiceRequest, PolicyOfTax policyOfTax) {
+        Invoice invoice = Invoice.returnObject(Id.generate(), invoiceRequest.getClient());
 
         for (RequestItem item : invoiceRequest.getItems()) {
             Money net = item.getTotalCost();
@@ -54,9 +52,7 @@ public class BookKeeper {
 
             Tax tax = new Tax(taxValue, desc);
              */
-            Tax tax = taxByCountry.calculateTax(item)
-            InvoiceLine invoiceLine = new InvoiceLine(item.getProductData(), item.getQuantity(), net, tax);
-            invoice.addItem(invoiceLine);
+            invoice.addItem(policyOfTax.calculate(item, net));
         }
 
         return invoice;
